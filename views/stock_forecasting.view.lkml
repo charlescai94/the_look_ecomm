@@ -45,7 +45,7 @@ view: stock_forecasting_explore_base {
     link: {
       label: "Drive attachments for {{rendered_value}}"
       icon_url: "https://i.imgur.com/W4tVGrj.png"
-      url: "https://demo.looker.com/dashboards/Ipxk660N88jaUxsHolxRts?Focus%20Product={{value | encode_uri}}&Minimum%20Purchase%20Frequency="
+      url: "/dashboards/Ipxk660N88jaUxsHolxRts?Focus%20Product={{value | encode_uri}}&Minimum%20Purchase%20Frequency="
     }
   }
   dimension: product_name_for_join {

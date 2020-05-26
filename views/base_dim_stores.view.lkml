@@ -26,29 +26,35 @@ view: stores {
   }
 
   dimension: name {
+    drill_fields: [products.category]
     label: "Store Name"
     type: string
     sql: ${TABLE}.NAME ;;
     link: {
-      url: "https://demo.looker.com/dashboards/WQKf302aPo8IEFvc2EkSQP?Date={{ _filters['transactions.date_comparison_filter'] | url_encode }}&Store={{value | encode_uri}}"
+      url: "/dashboards/WQKf302aPo8IEFvc2EkSQP?Date={{ _filters['transactions.date_comparison_filter'] | url_encode }}&Store={{value | encode_uri}}"
       label: "Drill down into {{rendered_value}}"
     }
-    action: {
-      label: "Text/Call {{rendered_value}} Store Manager"
-      icon_url: "https://cdn.iconscout.com/icon/free/png-256/twilio-282195.png"
+    link: {
       url: "https://looker-retail-demo-1.appspot.com/api/contactStoreManager?store={{value | encode_uri}}"
-      param: {
-        name: "store"
-        value: "{{value | encode_uri}}"
-      }
-      form_param: {
-        name: "message"
-        type: textarea
-        label: "Message"
-        required: yes
-        default: "Hi, can you please check out what's going on in {{rendered_value}}? https://demo.looker.com/dashboards/WQKf302aPo8IEFvc2EkSQP?Store={{value | encode_uri}}"
-      }
+      label: "Text/Call {{rendered_value}} Store Manager via Google App Engine"
+      icon_url: "https://cdn.iconscout.com/icon/free/png-256/twilio-282195.png"
     }
+#     action: {
+#       label: "Text/Call {{rendered_value}} Store Manager"
+#       icon_url: "https://cdn.iconscout.com/icon/free/png-256/twilio-282195.png"
+#       url: "https://looker-retail-demo-1.appspot.com/api/contactStoreManager?store={{value | encode_uri}}"
+#       param: {
+#         name: "store"
+#         value: "{{value | encode_uri}}"
+#       }
+#       form_param: {
+#         name: "message"
+#         type: textarea
+#         label: "Message"
+#         required: yes
+#         default: "Hi, can you please check out what's going on in {{rendered_value}}? /dashboards/WQKf302aPo8IEFvc2EkSQP?Store={{value | encode_uri}}"
+#       }
+#     }
   }
 
   dimension: state {
@@ -131,7 +137,7 @@ view: stores {
         type: textarea
         label: "Message"
         required: yes
-        default: "Hi, can you please check out what's going on in {{rendered_value}}? https://demo.looker.com/dashboards/WQKf302aPo8IEFvc2EkSQP?Store={{value | encode_uri}}"
+        default: "Hi, can you please check out what's going on in {{rendered_value}}? /dashboards/WQKf302aPo8IEFvc2EkSQP?Store={{value | encode_uri}}"
       }
     }
   }

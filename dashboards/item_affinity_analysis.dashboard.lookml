@@ -345,7 +345,7 @@
     col: 0
     width: 24
     height: 2
-  - name: ''
+  - name: Bundle Products
     type: text
     title_text: ''
     subtitle_text: What are the best products to bundle with the focus product?
@@ -353,7 +353,7 @@
     col: 0
     width: 24
     height: 2
-  - name: ''
+  - name: Least Popular Items
     type: text
     subtitle_text: Finally, what are my least popular items in that timeframe?
     body_text: ''
@@ -529,7 +529,7 @@
     col: 13
     width: 11
     height: 2
-  - name: ''
+  - name: Items Recommended Action
     type: text
     body_text: |-
       **Recommended Action 👉**
@@ -538,7 +538,7 @@
     col: 0
     width: 3
     height: 8
-  - name: ''
+  - name: Attachments Recommended Action
     type: text
     body_text: |-
       **Recommended Action 👉**
@@ -549,7 +549,7 @@
     col: 0
     width: 3
     height: 12
-  - name: ''
+  - name: Removal Recommended Action
     type: text
     body_text: |-
       **Recommended Action 👉**
