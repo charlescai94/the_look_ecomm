@@ -1,5 +1,5 @@
 connection: "lookerdata"
-label: "2) Retail"
+label: "Retail"
 
 include: "/views/**/*.view" # include all the views
 # include: "/dashboards/*.dashboard.lookml" # include all the dashboards
