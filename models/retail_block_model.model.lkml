@@ -1,4 +1,4 @@
-connection: "lookerdata"
+connection: "looker-private-demo"
 label: "4) Retail"
 
 include: "/views/**/*.view" # include all the views
