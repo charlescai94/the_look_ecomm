@@ -1,6 +1,6 @@
 view: products {
   label: "Products 📦"
-  sql_table_name: looker-private-demo.retail_demo.products ;;
+  sql_table_name: `looker-private-demo.retail.products` ;;
   drill_fields: [id]
 
   dimension: id {

@@ -1,7 +1,7 @@
 include: "date_comparison.view.lkml"
 
 view: transactions {
-  sql_table_name: looker-private-demo.retail_demo.transaction_detail ;;
+  sql_table_name: `looker-private-demo.retail.transaction_detail` ;;
   extends: [date_comparison]
 
 

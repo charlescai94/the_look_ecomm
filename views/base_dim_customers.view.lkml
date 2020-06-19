@@ -1,5 +1,5 @@
 view: customers {
-  sql_table_name: looker-private-demo.retail_demo.customers ;;
+  sql_table_name: `looker-private-demo.retail.customers` ;;
   drill_fields: [id]
 
   dimension: id {

@@ -1,5 +1,5 @@
 view: events {
-  sql_table_name: looker-private-demo.retail_demo.events ;;
+  sql_table_name: `looker-private-demo.retail.events` ;;
   drill_fields: [id]
 
   dimension: id {
