@@ -124,6 +124,10 @@ explore: order_purchase_affinity {
 
 explore: customer_clustering_prediction {
   label: "Customer Segments 👤"
+  join: transactions {
+    # to avoid warning on dashboard URL link in customer_segment dimension
+    fields: [transactions.date_comparison_filter]
+  }
 }
 
 datagroup: daily {
