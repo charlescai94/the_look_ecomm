@@ -235,7 +235,7 @@ view: order_purchase_affinity {
     link: {
       label: "Focus on {{rendered_value}}"
       #### TO DO: Replace "/3" with id of the [...] dashboards
-      url: "/dashboards/Ipxk660N88jaUxsHolxRts?Focus%20Product={{ value | encode_uri }}&Product%20Level={{ _filters['order_items_base.product_level'] | url_encode }}&Analysis%20Timeframe={{ _filters['order_purchase_affinity.affinity_timeframe'] | url_encode }}&Store%20Number={{ _filters['order_purchase_affinity.store_number'] | url_encode }}&Focus%20Category={{ _filters['order_purchase_affinity.product_a_category'] | url_encode }}&Minimum%20Purchase%20Frequency={{ _filters['order_purchase_affinity.product_a_order_frequency'] | url_encode }}"
+      url: "/dashboards/Ipxk660N88jaUxsHolxRts?Focus%20Product={{ value | encode_uri }}&Product%20Level={{ _filters['order_items_base.product_level'] | url_encode }}&Analysis%20Timeframe={{ _filters['order_purchase_affinity.affinity_timeframe'] | url_encode }}&Store%20Name={{ _filters['order_purchase_affinity.store_name'] | url_encode }}&Focus%20Category={{ _filters['order_purchase_affinity.product_a_category'] | url_encode }}&Minimum%20Purchase%20Frequency={{ _filters['order_purchase_affinity.product_a_order_frequency'] | url_encode }}"
     }
   }
 
