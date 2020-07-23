@@ -1,7 +1,7 @@
 include: "date_comparison.view.lkml"
 
 view: transactions {
-  sql_table_name: retail_demo.transaction_detail ;;
+  sql_table_name: `looker-private-demo.retail.transaction_detail` ;;
   extends: [date_comparison]
 
 
@@ -25,7 +25,9 @@ view: transactions {
 
   dimension: line_items {
     hidden: yes
-    sql: ${TABLE}.line_items ;;
+    sql:
+    -- spectacles: ignore
+    ${TABLE}.line_items ;;
   }
 
   dimension: store_id {
