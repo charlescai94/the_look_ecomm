@@ -1,5 +1,5 @@
 view: category_lookup {
-  sql_table_name: manufacturing.category_lookup ;;
+  sql_table_name: `looker-private-demo.retail.category_lookup` ;;
 
   dimension: category {
     type: string

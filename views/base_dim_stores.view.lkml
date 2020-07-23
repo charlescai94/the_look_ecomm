@@ -1,9 +1,9 @@
 view: stores {
   label: "Stores 🏪"
-#   sql_table_name: retail_demo.us_stores ;;
+#   sql_table_name: looker-private-demo.retail.us_stores ;;
   derived_table: {
     datagroup_trigger: monthly
-    sql: SELECT * FROM retail_demo.us_stores WHERE id IN (SELECT distinct store_id from ${transactions.SQL_TABLE_NAME});;
+    sql: SELECT * FROM `looker-private-demo.retail.us_stores` WHERE id IN (SELECT distinct store_id from ${transactions.SQL_TABLE_NAME});;
   }
 
   dimension: id {

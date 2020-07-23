@@ -1,5 +1,5 @@
 view: channels {
-  sql_table_name: retail_demo.channels ;;
+  sql_table_name: `looker-private-demo.retail.channels` ;;
 
   dimension: id {
     type: number

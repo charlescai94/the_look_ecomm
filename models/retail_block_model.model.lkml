@@ -1,13 +1,12 @@
-connection: "lookerdata"
+connection: "looker-private-demo"
 label: "Retail"
 
 include: "/views/**/*.view" # include all the views
-# include: "/dashboards/*.dashboard.lookml" # include all the dashboards
-
+include: "/dashboards/*.dashboard.lookml" # include all the dashboards
 
 
 explore: transactions {
-  label: "(1) Transaction Detail"
+  label: "(1) Transaction Detail 🏷"
   always_filter: {
     filters: {
       field: transaction_date
@@ -81,7 +80,7 @@ explore: transactions {
 }
 
 explore: stock_forecasting_explore_base {
-  label: "(2) Stock Forecasting"
+  label: "(2) Stock Forecasting 🏭"
 
   always_filter: {
     filters: {
@@ -100,7 +99,7 @@ explore: stock_forecasting_explore_base {
 }
 
 explore: order_purchase_affinity {
-  label: "(3) Item Affinity"
+  label: "(3) Item Affinity 🔗"
   view_label: "Item Affinity"
 
   always_filter: {
@@ -123,8 +122,14 @@ explore: order_purchase_affinity {
 }
 
 explore: customer_clustering_prediction {
-  label: "(4) Customer Segments"
+  label: "(4) Customer Segments 👤"
+  join: transactions {
+    # to avoid warning on dashboard URL link in customer_segment dimension
+    fields: [transactions.date_comparison_filter]
+  }
 }
+
+### caching
 
 datagroup: daily {
   sql_trigger: SELECT CURRENT_DATE() ;;
