@@ -25,7 +25,9 @@ view: transactions {
 
   dimension: line_items {
     hidden: yes
-    sql: ${TABLE}.line_items ;;
+    sql:
+    -- spectacles: ignore
+    ${TABLE}.line_items ;;
   }
 
   dimension: store_id {
