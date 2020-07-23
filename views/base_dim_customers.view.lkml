@@ -1,5 +1,5 @@
 view: customers {
-  sql_table_name: retail_demo.customers ;;
+  sql_table_name: `looker-private-demo.retail.customers` ;;
   drill_fields: [id]
 
   dimension: id {
@@ -13,7 +13,7 @@ view: customers {
     sql: ${TABLE}.address ;;
     group_label: "Address Info"
     link: {
-      url: "https://demo.looker.com/dashboards/ya1knzVmVzuw8UHoe4VqVt?Address=%22{{value | encode_uri}}%22&Date%20Range={{ _filters['transactions.transaction_date']}}"
+      url: "/dashboards/ya1knzVmVzuw8UHoe4VqVt?Address=%22{{value | encode_uri}}%22&Date%20Range={{ _filters['transactions.transaction_date']}}"
       label: "Drill into this address"
       icon_url: "https://img.icons8.com/cotton/2x/worldwide-location.png"
     }
@@ -23,7 +23,7 @@ view: customers {
     type: string
     group_label: "Address Info"
     sql: ${address} ;;
-    html: <img src="https://maps.googleapis.com/maps/api/streetview?size=700x400&location={{value | encode_uri}}&fov=120&key=AIzaSyCpNqLNfBtd1iw0UdeKwv9kORpCFRhNG4o" ;;
+    html: <img src="https://maps.googleapis.com/maps/api/streetview?size=700x400&location={{value | encode_uri}}&fov=120&key=AIzaSyD7BvCbKqjStBl7r6AmDu1p8yGF-IxtFLs" ;;
   }
 
   dimension: age {

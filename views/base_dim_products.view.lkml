@@ -1,6 +1,6 @@
 view: products {
   label: "Products 📦"
-  sql_table_name: retail_demo.products ;;
+  sql_table_name: `looker-private-demo.retail.products` ;;
   drill_fields: [id]
 
   dimension: id {
@@ -19,11 +19,11 @@ view: products {
   dimension: category {
     type: string
     sql: ${TABLE}.CATEGORY ;;
-    drill_fields: [brand]
+    drill_fields: [stores.name,brand]
     link: {
       label: "{{value}} Item Dynamics"
       icon_url: "https://i.imgur.com/W4tVGrj.png"
-      url: "https://demo.looker.com/dashboards/Ipxk660N88jaUxsHolxRts?Focus%20Category={{value | encode_uri}}&Minimum%20Purchase%20Frequency="
+      url: "/dashboards/Ipxk660N88jaUxsHolxRts?Focus%20Category={{value | encode_uri}}&Minimum%20Purchase%20Frequency="
     }
     action: {
       label: "Text/Call {{rendered_value}} Category Manager"
@@ -38,7 +38,7 @@ view: products {
         type: textarea
         label: "Message"
         required: yes
-        default: "Hi, can you please check out what's going on in {{rendered_value}}? https://demo.looker.com/dashboards/Ipxk660N88jaUxsHolxRts?Category={{value | encode_uri}}"
+        default: "Hi, can you please check out what's going on in {{rendered_value}}? /dashboards/Ipxk660N88jaUxsHolxRts?Category={{value | encode_uri}}"
       }
     }
   }
@@ -56,7 +56,7 @@ view: products {
     link: {
       label: "Drive attachments for {{rendered_value}}"
       icon_url: "https://i.imgur.com/W4tVGrj.png"
-      url: "https://demo.looker.com/dashboards/Ipxk660N88jaUxsHolxRts?Focus%20Product={{value | encode_uri}}&Minimum%20Purchase%20Frequency="
+      url: "/dashboards/Ipxk660N88jaUxsHolxRts?Focus%20Product={{value | encode_uri}}&Minimum%20Purchase%20Frequency="
     }
   }
 

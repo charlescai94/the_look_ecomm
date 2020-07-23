@@ -45,7 +45,7 @@ view: stock_forecasting_explore_base {
     link: {
       label: "Drive attachments for {{rendered_value}}"
       icon_url: "https://i.imgur.com/W4tVGrj.png"
-      url: "https://demo.looker.com/dashboards/Ipxk660N88jaUxsHolxRts?Focus%20Product={{value | encode_uri}}&Minimum%20Purchase%20Frequency="
+      url: "/dashboards/Ipxk660N88jaUxsHolxRts?Focus%20Product={{value | encode_uri}}&Minimum%20Purchase%20Frequency="
     }
   }
   dimension: product_name_for_join {
@@ -257,6 +257,7 @@ view: stock_forecasting_store_week_facts_prior_year {
     explore_source: transactions {
       column: transaction_week_of_year {}
       column: id { field: stores.id }
+      column: name { field: products.name }
       column: total_quantity { field: transactions__line_items.total_quantity }
       column: average_basket_size { field: transactions__line_items.average_basket_size }
       column: average_item_price { field: transactions__line_items.average_item_price }
