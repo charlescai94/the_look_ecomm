@@ -665,6 +665,7 @@
     fill_fields: [transactions.transaction_month_num, transactions.transaction_year]
     filters:
       transactions.transaction_date: 4 years
+      transactions.transaction_month: before 0 months ago
     sorts: [transactions__line_items.total_sales desc 0, transactions.transaction_year]
     limit: 500
     x_axis_gridlines: false
