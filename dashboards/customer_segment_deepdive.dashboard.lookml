@@ -369,7 +369,7 @@
   - name: Customer Segment
     title: Customer Segment
     type: field_filter
-    default_value: Emerging Millennials ?
+    default_value: Emerging Millennials 🥑
     allow_multiple_values: false
     required: true
     model: retail_block_model

@@ -197,8 +197,8 @@
     col: 10
     width: 14
     height: 9
-  - title: Change by Store ?
-    name: Change by Store ?
+  - title: Change by Store
+    name: Change by Store
     model: retail_block_model
     explore: transactions
     type: looker_bar
@@ -295,8 +295,8 @@
     col: 0
     width: 12
     height: 13
-  - title: Change by Category ?
-    name: Change by Category ?
+  - title: Change by Category
+    name: Change by Category
     model: retail_block_model
     explore: transactions
     type: looker_bar
