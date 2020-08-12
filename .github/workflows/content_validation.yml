@@ -4,8 +4,8 @@ env:
   PROJECT_NAME: retail
   HOST: demo
 on:
-  schedule:
-    - cron: '0 4 * * 1-5' 
+#   schedule:
+#     - cron: '0 4 * * 1-5' 
   workflow_dispatch:
 
 jobs:
