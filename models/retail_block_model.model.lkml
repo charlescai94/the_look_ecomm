@@ -13,6 +13,12 @@ explore: transactions {
       value: "last 30 days"
     }
   }
+
+  access_filter: {
+    field: stores.name
+    user_attribute: store
+  }
+
   join: transactions__line_items {
     relationship: one_to_many
     sql: LEFT JOIN UNNEST(${transactions.line_items}) transactions__line_items ;;
