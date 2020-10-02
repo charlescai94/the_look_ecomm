@@ -81,7 +81,7 @@ view: products {
   dimension: product_image {
     type: string
     sql: ${name} ;;
-    html: <img src="https://us-central1-looker-retail-demo-1.cloudfunctions.net/imageSearch?q={{value | encode_uri }}" style="height: 50px; max-width: 150px;" /> ;;
+    html: <img src="https://us-central1-looker-private-demo.cloudfunctions.net/imageSearch?q={{value | encode_uri }}" style="height: 50px; max-width: 150px;" /> ;;
   }
 
   ##### MEASURES #####
