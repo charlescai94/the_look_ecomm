@@ -28,7 +28,7 @@ view: products {
     action: {
       label: "Text/Call {{rendered_value}} Category Manager"
       icon_url: "https://cdn.iconscout.com/icon/free/png-256/twilio-282195.png"
-      url: "https://looker-retail-demo-1.appspot.com/api/contactCategoryManager?category={{value | encode_uri}}"
+      url: "https://retail-demo-app-idhn2cvrpq-uc.a.run.app/api/contactCategoryManager?category={{value | encode_uri}}"
       param: {
         name: "category"
         value: "{{value | encode_uri}}"

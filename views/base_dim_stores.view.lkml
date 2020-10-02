@@ -35,14 +35,14 @@ view: stores {
       label: "Drill down into {{rendered_value}}"
     }
     link: {
-      url: "https://looker-retail-demo-1.appspot.com/api/contactStoreManager?store={{value | encode_uri}}"
+      url: "https://retail-demo-app-idhn2cvrpq-uc.a.run.app/api/contactStoreManager?store={{value | encode_uri}}"
       label: "Text/Call {{rendered_value}} Store Manager via Google App Engine"
       icon_url: "https://cdn.iconscout.com/icon/free/png-256/twilio-282195.png"
     }
 #     action: {
 #       label: "Text/Call {{rendered_value}} Store Manager"
 #       icon_url: "https://cdn.iconscout.com/icon/free/png-256/twilio-282195.png"
-#       url: "https://looker-retail-demo-1.appspot.com/api/contactStoreManager?store={{value | encode_uri}}"
+#       url: "https://retail-demo-app-idhn2cvrpq-uc.a.run.app/api/contactStoreManager?store={{value | encode_uri}}"
 #       param: {
 #         name: "store"
 #         value: "{{value | encode_uri}}"
@@ -127,7 +127,7 @@ view: stores {
     action: {
       label: "Text/Call {{rendered_value}} Store Manager"
       icon_url: "https://cdn.iconscout.com/icon/free/png-256/twilio-282195.png"
-      url: "https://looker-retail-demo-1.appspot.com/api/contactStoreManager?store={{value | encode_uri}}"
+      url: "https://retail-demo-app-idhn2cvrpq-uc.a.run.app/api/contactStoreManager?store={{value | encode_uri}}"
       param: {
         name: "store"
         value: "{{value | encode_uri}}"
