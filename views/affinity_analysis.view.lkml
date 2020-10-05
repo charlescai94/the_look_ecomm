@@ -243,7 +243,7 @@ view: order_purchase_affinity {
     group_label: "Product A"
     type: string
     sql: ${product_a} ;;
-    html: <img src="https://us-central1-looker-retail-demo-1.cloudfunctions.net/imageSearch?q={{rendered_value | encode_uri }}" style="height: 100px; max-width: 150px;" /> ;;
+    html: <img src="https://us-central1-looker-private-demo.cloudfunctions.net/imageSearch?q={{rendered_value | encode_uri }}" style="height: 100px; max-width: 150px;" /> ;;
   }
 
   dimension: product_b {
@@ -256,7 +256,7 @@ view: order_purchase_affinity {
     group_label: "Product B"
     type: string
     sql: ${product_b} ;;
-    html: <img src="https://us-central1-looker-retail-demo-1.cloudfunctions.net/imageSearch?q={{rendered_value | encode_uri }}" style="height: 100px; max-width: 150px;" /> ;;
+    html: <img src="https://us-central1-looker-private-demo.cloudfunctions.net/imageSearch?q={{rendered_value | encode_uri }}" style="height: 100px; max-width: 150px;" /> ;;
   }
 
   dimension: product_a_category {

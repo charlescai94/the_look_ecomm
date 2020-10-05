@@ -55,7 +55,7 @@ view: stock_forecasting_explore_base {
   }
   dimension: product_image {
     view_label: "Product Detail 📦"
-    html: <img src="https://us-central1-looker-retail-demo-1.cloudfunctions.net/imageSearch?q={{value | encode_uri }}" style="height: 50px; max-width: 150px;" /> ;;
+    html: <img src="https://us-central1-looker-private-demo.cloudfunctions.net/imageSearch?q={{value | encode_uri }}" style="height: 50px; max-width: 150px;" /> ;;
   }
   dimension: department {
     view_label: "Product Detail 📦"
