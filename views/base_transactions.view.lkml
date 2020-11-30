@@ -64,7 +64,7 @@ view: transactions {
     type: duration
     intervals: [month]
     sql_start: ${customer_facts.customer_first_purchase_raw} ;;
-    sql_end: CURRENT_TIMESTAMP() ;;
+    sql_end: ${transaction_raw} ;;
   }
 
   ##### MEASURES #####
