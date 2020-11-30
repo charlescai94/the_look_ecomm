@@ -2,6 +2,95 @@ view: omni_channel_transactions {
   sql_table_name: `looker-private-demo.retail.omni_channel_transactions`
     ;;
 
+  measure: first_purchase {
+    type: string
+    sql: min(${transaction_date}) ;;
+  }
+
+  measure: last_purchase {
+    type: string
+    sql: max(${transaction_date}) ;;
+  }
+
+  measure: transaction_count {
+    type: count
+  }
+
+  measure: l30_transaction_count {
+    type: count
+    filters: [last_30: "Yes"]
+  }
+
+  measure: l90_transaction_count {
+    type: count
+    filters: [last_90: "Yes"]
+  }
+
+  measure: l180_transaction_count {
+    type: count
+    filters: [last_180: "Yes"]
+  }
+
+  measure: l360_transaction_count {
+    type: count
+    filters: [last_360: "Yes"]
+  }
+
+  measure: return_count {
+    type: count
+    filters: [is_returned: "Yes"]
+  }
+
+  measure: discounted_transaction_count {
+    type: count
+    filters: [is_discounted: "Yes"]
+  }
+
+  measure: online_transaction_count {
+    filters: [purchase_channel: "Online"]
+    type: count
+  }
+
+  measure: curbside_transaction_count {
+    type: count
+    filters: [fulfillment_channel: "In-store Pickup"]
+  }
+
+  measure: instore_transaction_count {
+    filters: [purchase_channel: "In-store"]
+    type: count
+  }
+
+  dimension: is_discounted {
+    type: yesno
+    sql: ${offer_type} is not null ;;
+  }
+
+  dimension: is_returned {
+    type: yesno
+    sql: ${returned_raw} is not null ;;
+  }
+
+  dimension: last_30 {
+    type: yesno
+    sql: ${transaction_raw} >= ((TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', TIMESTAMP_ADD(TIMESTAMP_TRUNC(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', CURRENT_TIMESTAMP(), 'America/Los_Angeles')), DAY), INTERVAL -29 DAY)), 'America/Los_Angeles'))) AND ${transaction_raw} < ((TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', TIMESTAMP_ADD(TIMESTAMP_ADD(TIMESTAMP_TRUNC(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', CURRENT_TIMESTAMP(), 'America/Los_Angeles')), DAY), INTERVAL -29 DAY), INTERVAL 30 DAY)), 'America/Los_Angeles'))) ;;
+  }
+
+  dimension: last_90 {
+    type: yesno
+    sql: ${transaction_raw} >= ((TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', TIMESTAMP_ADD(TIMESTAMP_TRUNC(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', CURRENT_TIMESTAMP(), 'America/Los_Angeles')), DAY), INTERVAL -89 DAY)), 'America/Los_Angeles'))) AND ${transaction_raw} < ((TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', TIMESTAMP_ADD(TIMESTAMP_ADD(TIMESTAMP_TRUNC(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', CURRENT_TIMESTAMP(), 'America/Los_Angeles')), DAY), INTERVAL -89 DAY), INTERVAL 90 DAY)), 'America/Los_Angeles'))) ;;
+  }
+
+  dimension: last_180 {
+    type: yesno
+    sql: ${transaction_raw} >= ((TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', TIMESTAMP_ADD(TIMESTAMP_TRUNC(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', CURRENT_TIMESTAMP(), 'America/Los_Angeles')), DAY), INTERVAL -179 DAY)), 'America/Los_Angeles'))) AND ${transaction_raw} < ((TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', TIMESTAMP_ADD(TIMESTAMP_ADD(TIMESTAMP_TRUNC(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', CURRENT_TIMESTAMP(), 'America/Los_Angeles')), DAY), INTERVAL -179 DAY), INTERVAL 180 DAY)), 'America/Los_Angeles'))) ;;
+  }
+
+  dimension: last_360 {
+    type: yesno
+    sql: ${transaction_raw} >= ((TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', TIMESTAMP_ADD(TIMESTAMP_TRUNC(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', CURRENT_TIMESTAMP(), 'America/Los_Angeles')), DAY), INTERVAL -359 DAY)), 'America/Los_Angeles'))) AND ${transaction_raw} < ((TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', TIMESTAMP_ADD(TIMESTAMP_ADD(TIMESTAMP_TRUNC(TIMESTAMP(FORMAT_TIMESTAMP('%F %H:%M:%E*S', CURRENT_TIMESTAMP(), 'America/Los_Angeles')), DAY), INTERVAL -359 DAY), INTERVAL 360 DAY)), 'America/Los_Angeles'))) ;;
+  }
+
   dimension: customer_id {
     type: number
     sql: ${TABLE}.customer_id ;;
@@ -111,13 +200,9 @@ view: omni_channel_transactions {
   }
 
   dimension: transaction_id {
+    primary_key: yes
     type: number
     sql: ${TABLE}.transaction_id ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [store_name]
   }
 }
 
@@ -153,6 +238,7 @@ view: omni_channel_transactions__transaction_details {
   }
 
   dimension: product_sku {
+    primary_key: yes
     type: string
     sql: ${TABLE}.product_sku ;;
   }
@@ -160,5 +246,14 @@ view: omni_channel_transactions__transaction_details {
   dimension: sale_price {
     type: number
     sql: ${TABLE}.sale_price ;;
+  }
+
+  measure: total_sales {
+    type: sum
+    sql: ${sale_price} ;;
+  }
+
+  measure: item_count {
+    type: count
   }
 }

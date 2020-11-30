@@ -68,8 +68,22 @@ view: omni_channel_events {
     sql: ${TABLE}.URI ;;
   }
 
-  measure: count {
+  measure: event_count {
     type: count
-    drill_fields: [id]
+  }
+
+  measure: cart_adds {
+    filters: [event_type: "Cart"]
+    type: count
+  }
+
+  measure: purchases {
+    filters: [event_type: "Purchase"]
+    type: count
+  }
+
+  measure: session_count {
+    type: count_distinct
+    sql: ${session_id} ;;
   }
 }
