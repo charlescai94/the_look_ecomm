@@ -2,6 +2,11 @@ view: omni_channel_transactions {
   sql_table_name: `looker-private-demo.retail.omni_channel_transactions`
     ;;
 
+  measure: customer_count {
+    type: count_distinct
+    sql: ${customer_id} ;;
+  }
+
   measure: first_purchase {
     type: string
     sql: min(${transaction_date}) ;;
@@ -248,9 +253,22 @@ view: omni_channel_transactions__transaction_details {
     sql: ${TABLE}.sale_price ;;
   }
 
+  measure: total_profit {
+    value_format_name: usd
+    type: sum
+    sql: ${gross_margin} ;;
+  }
+
   measure: total_sales {
+    value_format_name: usd
     type: sum
     sql: ${sale_price} ;;
+  }
+
+  measure: profit_margin {
+    type: number
+    sql: ${total_profit} / nullif(${total_sales},0) ;;
+    value_format_name: percent_2
   }
 
   measure: item_count {

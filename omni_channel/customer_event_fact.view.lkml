@@ -3,6 +3,7 @@
 
 view: customer_event_fact {
   derived_table: {
+    persist_for: "24 hours"
     explore_source: omni_channel_events {
       column: customer_id {}
       column: cart_adds {}

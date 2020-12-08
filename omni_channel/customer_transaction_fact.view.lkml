@@ -3,6 +3,7 @@
 
 view: customer_transaction_fact {
   derived_table: {
+    persist_for: "24 hours"
     explore_source: omni_channel_transactions {
       column: customer_id {}
       column: curbside_transaction_count {}
@@ -28,7 +29,7 @@ view: customer_transaction_fact {
     type: number
   }
   dimension: first_purchase {
-    type: number
+    type: string
   }
   dimension: instore_transaction_count {
     type: number
@@ -46,7 +47,7 @@ view: customer_transaction_fact {
     type: number
   }
   dimension: last_purchase {
-    type: number
+    type: string
   }
   dimension: online_transaction_count {
     type: number

@@ -3,6 +3,7 @@
 
 view: customer_support_fact {
   derived_table: {
+    persist_for: "24 hours"
     explore_source: omni_channel_support_calls {
       column: client_id {}
       column: count {}
