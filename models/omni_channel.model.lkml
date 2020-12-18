@@ -15,7 +15,24 @@ explore: omni_channel_transactions {
   }
 }
 
-explore: omni_channel_events {}
+explore: omni_channel_events {
+  join: c360 {
+    type: inner
+    relationship: many_to_one
+    sql_on: ${c360.customer_id} = ${omni_channel_events.customer_id} ;;
+  }
+  join: omni_channel_transactions {
+    fields: []
+    relationship: one_to_many
+    sql_on: ${omni_channel_transactions.customer_id} = ${c360.customer_id} ;;
+  }
+  join: omni_channel_transactions__transaction_details {
+    fields: [omni_channel_transactions__transaction_details.total_sales]
+    type: left_outer
+    relationship: one_to_many
+    sql: LEFT JOIN UNNEST(${omni_channel_transactions.transaction_details}) as omni_channel_transactions__transaction_details  ;;
+  }
+}
 
 explore: omni_channel_support_calls {}
 

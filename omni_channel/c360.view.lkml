@@ -53,7 +53,11 @@ view: c360 {
   dimension: discounted_transaction_count {
     type: number
   }
-  dimension: first_purchase {}
+  dimension_group: first_purchase {
+    type: time
+    timeframes: [raw,date]
+    sql: CAST(${TABLE}.first_purchase as timestamp) ;;
+  }
   dimension: instore_transaction_count {
     type: number
   }
@@ -85,7 +89,133 @@ view: c360 {
   dimension: transaction_count {
     type: number
   }
+
+#use customer transaction date
+
+  dimension: months_since_first_purchase {
+    type: number
+    sql: DATE_DIFF(${omni_channel_transactions.transaction_date}, ${first_purchase_date}, MONTH) ;;
+  }
+
+  dimension: transactions_per_month {
+    type: number
+    sql: ${transaction_count}/nullif(${months_since_first_purchase},0) ;;
+  }
+
+  dimension: recency_rating {
+    hidden: yes
+    type: number
+    sql: CASE WHEN ${l30_transaction_count} >= 1 THEN 5
+              WHEN ${l30_transaction_count} < 1 AND ${l90_transaction_count} >=1 THEN 4
+              WHEN ${l30_transaction_count} < 1 AND ${l90_transaction_count} < 1 AND ${l180_transaction_count} >= 1 THEN 3
+              WHEN ${l30_transaction_count} < 1 AND ${l90_transaction_count} < 1 AND ${l180_transaction_count} < 1 AND ${l360_transaction_count} >= 2 THEN 2
+              WHEN ${l360_transaction_count} < 2 THEN 1
+              ELSE null
+              END ;;
+  }
+
+# number of transactions/orders per month
+  dimension: frequency_rating {
+    hidden: yes
+    type: number
+    sql: CASE WHEN ${transactions_per_month} >= 2 THEN 5
+              WHEN ${transactions_per_month} >= 1 THEN 4
+              WHEN ${transactions_per_month} >= 0.5 THEN 3
+              WHEN ${transactions_per_month} >= 0.25 THEN 2
+              else 1
+              END ;;
+  }
+
+  dimension: value_rating {
+    hidden: yes
+    type: number
+    sql: CASE WHEN ${total_sales} >= 1000 THEN 5
+              WHEN ${total_sales} < 1000 AND ${total_sales} >= 800 THEN 4
+              WHEN ${total_sales} < 800 AND ${total_sales} >= 600 THEN 3
+              WHEN ${total_sales} < 600 AND ${total_sales} >= 400 THEN 2
+              WHEN ${total_sales} < 400 THEN 1
+              ELSE null
+              END ;;
+  }
+
+  dimension: rfm_rating {
+    type: string
+    sql: CASE WHEN ${recency_rating} = 5 AND (${frequency_rating} = 5 OR ${frequency_rating} = 4) THEN 'Champion'
+              WHEN (${recency_rating} = 5 OR ${recency_rating} = 4) AND (${frequency_rating} = 3 OR ${frequency_rating} = 2) THEN 'Potential Loyalist'
+              WHEN ${recency_rating} = 5 AND ${frequency_rating} = 1 THEN 'New Customer'
+              WHEN ${recency_rating} = 4 AND ${frequency_rating} = 1 THEN 'Promising'
+              WHEN (${recency_rating} = 4 OR ${recency_rating} = 3) AND (${frequency_rating} = 5 OR ${frequency_rating} = 4) THEN 'Loyal Customer'
+              WHEN (${recency_rating} = 2 OR ${recency_rating} = 1) AND ${frequency_rating} = 5 THEN 'Cant lose them'
+              WHEN (${recency_rating} = 2 OR ${recency_rating} = 1) AND (${frequency_rating} = 4 OR ${frequency_rating} = 3) THEN 'At Risk'
+              WHEN ${recency_rating} = 3 AND ${frequency_rating} = 3 THEN 'Needs Attention'
+              WHEN (${recency_rating} = 2 OR ${recency_rating} = 1) AND (${frequency_rating} = 2 OR ${frequency_rating} = 1) THEN 'Hibernating'
+              WHEN ${recency_rating} = 3 AND (${frequency_rating} = 2 OR ${frequency_rating} = 1) THEN 'About to sleep'
+              ELSE null
+              END ;;
+  }
+
   measure: customer_count {
     type: count
   }
+
+  measure: high_recency_customers {
+    group_label: "RFV Analysis"
+    type: count
+    filters: [recency_rating: "5"]
+  }
+
+  measure: low_recency_customers {
+    group_label: "RFV Analysis"
+    type: count
+    filters: [recency_rating: "1"]
+  }
+
+  measure: high_frequency_customers {
+    group_label: "RFV Analysis"
+    type: count
+    filters: [frequency_rating: "5"]
+  }
+
+  measure: low_frequency_customers {
+    group_label: "RFV Analysis"
+    type: count
+    filters: [frequency_rating: "1"]
+  }
+
+  measure: average_sales_amount {
+    type: average
+    sql: ${total_sales} ;;
+  }
+
+  measure: average_transaction_count {
+    type: average
+    sql: ${transaction_count} ;;
+  }
+
+  measure: high_monetary_value_customers {
+    group_label: "RFV Analysis"
+    type: count
+    filters: [value_rating: "5"]
+  }
+
+  measure: low_monetary_value_customers {
+    group_label: "RFV Analysis"
+    type: count
+    filters: [value_rating: "1"]
+  }
+
+  measure: ltv{
+    type: number
+    sql: ${average_sales_amount} * ${average_transaction_count} ;;
+  }
+
+  # measure: customer_count_first_purchase {
+  #   type: count
+  #   filters: [months_since_first_purchase: "0"]
+  # }
+
+  # measure: sales_per_user {
+  #   type: number
+  #   sql: ${omni_channel_transactions__transaction_details.total_sales}/${customer_count_first_purchase} ;;
+  # }
 }
