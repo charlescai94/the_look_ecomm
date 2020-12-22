@@ -366,7 +366,7 @@ view: omni_channel_transactions {
 
   dimension: offer_type {
     type: string
-    sql: ${TABLE}.offer_type ;;
+    sql: COALESCE(${TABLE}.offer_type,'None') ;;
   }
 
   dimension: purchase_channel {

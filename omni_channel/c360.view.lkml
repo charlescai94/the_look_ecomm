@@ -28,7 +28,13 @@ view: c360 {
       column: transaction_count {}
     }
   }
+  dimension: acquisition_source {
+    drill_fields: [omni_channel_transactions.offer_type]
+    type: string
+    sql: COALESCE(${TABLE}.acquisition_source,'Unknown') ;;
+  }
   dimension: customer_type {
+    drill_fields: [acquisition_source]
     case: {
       when: {
         sql: ${online_transaction_count} > 0 and ${instore_transaction_count} = 0 ;;
