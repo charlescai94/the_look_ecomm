@@ -6,6 +6,7 @@ view: customer_event_fact {
     persist_for: "24 hours"
     explore_source: omni_channel_events {
       column: customer_id {}
+      column: acquisition_source {}
       column: cart_adds {}
       column: event_count {}
       column: purchases {}
@@ -14,6 +15,9 @@ view: customer_event_fact {
   }
   dimension: customer_id {
     type: number
+  }
+  dimension: acquisition_source {
+    type: string
   }
   dimension: cart_adds {
     type: number

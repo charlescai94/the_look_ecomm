@@ -82,6 +82,11 @@ view: omni_channel_events {
     type: count
   }
 
+  measure: acquisition_source {
+    type: string
+    sql: SPLIT(MIN(CONCAT(CAST(${created_date} as string),'|',${traffic_source})),'|')[OFFSET(1)] ;;
+  }
+
   measure: session_count {
     type: count_distinct
     sql: ${session_id} ;;

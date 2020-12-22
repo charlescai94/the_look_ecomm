@@ -10,6 +10,7 @@ view: c360 {
       column: purchases { field: customer_event_fact.purchases }
       column: session_count { field: customer_event_fact.session_count }
       column: count { field: customer_support_fact.count }
+      column: acquisition_source {field: customer_event_fact.acquisition_source}
       column: curbside_transaction_count {}
       column: customer_id {}
       column: discounted_transaction_count {}
@@ -27,6 +28,24 @@ view: c360 {
       column: transaction_count {}
     }
   }
+  dimension: customer_type {
+    case: {
+      when: {
+        sql: ${online_transaction_count} > 0 and ${instore_transaction_count} = 0 ;;
+        label: "Online Only"
+      }
+      when: {
+        sql: ${online_transaction_count} = 0 and ${instore_transaction_count} > 0 ;;
+        label: "Instore Only"
+      }
+      when: {
+        sql: ${online_transaction_count} > 0 and ${instore_transaction_count} > 0 ;;
+        label: "Both Online and Instore"
+      }
+
+    }
+  }
+
   dimension: cart_adds {
     type: number
   }
@@ -76,7 +95,15 @@ view: c360 {
   dimension: l90_transaction_count {
     type: number
   }
-  dimension: last_purchase {}
+  dimension_group: last_purchase {
+    type: time
+    timeframes: [raw,date]
+    sql: CAST(${TABLE}.last_purchase as timestamp) ;;
+  }
+  dimension: days_a_customer {
+    type: number
+    sql: DATE_DIFF(${last_purchase_date}, ${first_purchase_date}, DAY) ;;
+  }
   dimension: online_transaction_count {
     type: number
   }
@@ -206,7 +233,19 @@ view: c360 {
 
   measure: ltv{
     type: number
-    sql: ${average_sales_amount} * ${average_transaction_count} ;;
+    sql: (${total_sales} / NULLIF(${days_a_customer},0) * 365) / IF(${customer_type} = 'Both Online and Instore',0.05,0.1)  ;;
+  }
+
+  dimension: predicted_clv {
+    value_format_name: usd
+    type: number
+    sql: (${total_sales} / NULLIF(${days_a_customer},0) * 365) / IF(${customer_type} = 'Both Online and Instore',0.05,0.1) ;;
+  }
+
+  measure: average_clv {
+    value_format_name: usd
+    type: average
+    sql: ${predicted_clv} ;;
   }
 
   # measure: customer_count_first_purchase {

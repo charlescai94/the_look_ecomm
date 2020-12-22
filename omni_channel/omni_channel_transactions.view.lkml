@@ -38,7 +38,7 @@ view: omni_channel_transactions {
           WHEN channels.NAME in ('Click and Collect','Online') THEN 'In-store Pickup'
          END AS fulfillment_channel,
         transactions__line_items.gross_margin  AS gross_margin,
-        transactions__line_items.sale_price  AS sale_price,
+        transactions__line_items.sale_price * 1.2  AS sale_price,
         transactions.transaction_timestamp AS transaction_date,
         null as delivered_date,
         null as shipped_date,
@@ -121,7 +121,7 @@ view: omni_channel_transactions {
           WHEN channels.NAME in ('Click and Collect','Online') THEN 'In-store Pickup'
          END AS fulfillment_channel,
         transactions__line_items.gross_margin  AS gross_margin,
-        transactions__line_items.sale_price  AS sale_price,
+        transactions__line_items.sale_price * 1.2  AS sale_price,
         transactions.transaction_timestamp AS transaction_date,
         null as delivered_date,
         null as shipped_date,
