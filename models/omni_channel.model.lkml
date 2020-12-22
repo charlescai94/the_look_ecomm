@@ -13,6 +13,11 @@ explore: omni_channel_transactions {
     relationship: many_to_one
     sql_on: ${omni_channel_transactions.customer_id} = ${c360.customer_id} ;;
   }
+  join: customers {
+    type: inner
+    relationship: one_to_one
+    sql_on: ${c360.customer_id} = ${customers.id} ;;
+  }
 }
 
 explore: omni_channel_events {

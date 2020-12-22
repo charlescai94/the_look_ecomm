@@ -34,7 +34,7 @@ view: c360 {
     sql: COALESCE(${TABLE}.acquisition_source,'Unknown') ;;
   }
   dimension: customer_type {
-    drill_fields: [acquisition_source]
+    drill_fields: [acquisition_source,has_visited_website]
     case: {
       when: {
         sql: ${online_transaction_count} > 0 and ${instore_transaction_count} = 0 ;;
@@ -63,6 +63,10 @@ view: c360 {
   }
   dimension: session_count {
     type: number
+  }
+  dimension: has_visited_website {
+    type: yesno
+    sql: ${event_count} > 0 ;;
   }
   dimension: count {
     label: "Support Calls"
@@ -108,7 +112,7 @@ view: c360 {
   }
   dimension: days_a_customer {
     type: number
-    sql: DATE_DIFF(${last_purchase_date}, ${first_purchase_date}, DAY) ;;
+    sql: IF(DATE_DIFF(CURRENT_DATE(), ${first_purchase_date}, DAY) > 30,DATE_DIFF(CURRENT_DATE(), ${first_purchase_date}, DAY),30) ;;
   }
   dimension: online_transaction_count {
     type: number
@@ -188,6 +192,11 @@ view: c360 {
   }
 
   measure: customer_count {
+    drill_fields: [customer_id,customers.name,customers.email,customers.address,predicted_clv]
+    link: {
+      label: "Top 100 Predicted CLV Customers"
+      url: "{{ link }}&sorts=c360.predicted_clv+desc&limit=100"
+    }
     type: count
   }
 
