@@ -66,7 +66,7 @@ view: customers {
 
     link: {
       label: "User Lookup Dashboard"
-      url: "/dashboards/ayalascustomerlookupdb?Email={{ value | encode_uri }}"
+      url: "https://demo.looker.com/dashboards-next/6705?ID={{ customers.id._value }}"
       icon_url: "http://www.looker.com/favicon.ico"
     }
     action: {
@@ -80,14 +80,14 @@ view: customers {
       form_param: {
         name: "Subject"
         required: yes
-        default: "Thank you {{ users.name._value }}"
+        default: "Thank you {{ customers.name._value }}"
       }
       form_param: {
         name: "Body"
         type: textarea
         required: yes
         default:
-        "Dear {{ users.first_name._value }},
+        "Dear {{ customers.first_name._value }},
 
         Thanks for your loyalty to the Look.  We'd like to offer you a 10% discount
         on your next purchase!  Just use the code LOYAL when checking out!
