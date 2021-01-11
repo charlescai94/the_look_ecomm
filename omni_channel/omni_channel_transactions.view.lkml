@@ -472,6 +472,9 @@ view: omni_channel_transactions__transaction_details {
   }
 
   dimension: product_category {
+    bypass_suggest_restrictions: yes
+    suggestable: yes
+    full_suggestions: yes
     type: string
     sql: ${TABLE}.product_category ;;
   }
