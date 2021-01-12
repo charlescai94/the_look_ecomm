@@ -1,6 +1,12 @@
 view: omni_channel_support_calls {
-  sql_table_name: `looker-private-demo.retail.omni_channel_support_calls`
-    ;;
+  derived_table: {
+    persist_for: "24 hours"
+    sql:
+    SELECT * except(client_id)
+    , cast(round(rand()*40000+45000,0) as INT64) as client_id
+    FROM `looker-private-demo.call_center.transcript_with_messages`
+ ;;
+  }
 
   dimension: agent_id {
     type: string

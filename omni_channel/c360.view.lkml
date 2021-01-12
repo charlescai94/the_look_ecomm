@@ -138,6 +138,7 @@ view: c360 {
     type: number
   }
   dimension: total_sales {
+    value_format_name: usd
     type: number
   }
   dimension: transaction_count {

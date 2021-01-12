@@ -496,6 +496,7 @@ view: omni_channel_transactions__transaction_details {
   }
 
   dimension: sale_price {
+    value_format_name: usd
     type: number
     sql: ${TABLE}.sale_price ;;
   }
