@@ -9,17 +9,7 @@ view: omni_channel_events {
     ,IP_ADDRESS
     ,OS
     ,BROWSER
-    ,SA360.TRAFFIC_SOURCE AS TRAFFIC_SOURCE
-    ,USER_ID as CUSTOMER_ID
-    ,URI
-    ,EVENT_TYPE
-    ,CREATED_AT
-    FROM `looker-private-demo.retail.events` EVENTS
-    JOIN
-    (
-      SELECT
-      SESSION_ID
-      ,CASE WHEN RAND() < 0.34 THEN 'Organic'
+    ,CASE WHEN RAND() < 0.34 THEN 'Organic'
             WHEN RAND() < 0.25 THEN 'Google Adwords'
             WHEN RAND() < 0.2 THEN 'Bing Ads'
             WHEN RAND() < 0.15 THEN 'Yahoo Ads'
@@ -28,14 +18,12 @@ view: omni_channel_events {
             WHEN RAND() < 0.5 THEN 'Email'
             ELSE 'Display'
       END AS TRAFFIC_SOURCE
-      FROM
-      (
-        SELECT SESSION_ID FROM `looker-private-demo.retail.events` GROUP BY 1
-      )
-    ) SA360
-    ON EVENTS.SESSION_ID = SA360.SESSION_ID
-    where user_id in (select distinct customer_id from `looker-private-demo.retail.omni_channel_transactions` where purchase_channel = 'Online' OR customer_id >= 30000)
-
+    ,USER_ID as CUSTOMER_ID
+    ,URI
+    ,EVENT_TYPE
+    ,CREATED_AT
+    FROM `looker-private-demo.retail.events`
+    WHERE USER_ID >= 30000
     ;;
   }
 
