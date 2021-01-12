@@ -114,6 +114,24 @@ view: c360 {
     type: number
     sql: IF(DATE_DIFF(CURRENT_DATE(), ${first_purchase_date}, DAY) > 30,DATE_DIFF(CURRENT_DATE(), ${first_purchase_date}, DAY),30) ;;
   }
+  dimension: days_since_last_purchase {
+    type: number
+    sql: DATE_DIFF(CURRENT_DATE(), ${last_purchase_date}, DAY) ;;
+  }
+  dimension: average_days_between_transaction {
+    type: number
+    sql: ${days_a_customer} / nullif(${purchases},0) ;;
+  }
+  dimension: risk_of_churn {
+    type: number
+    value_format_name: percent_1
+    sql: IF(1 - (${average_days_between_transaction} / nullif(${days_since_last_purchase},0))<0,0,1 - (${average_days_between_transaction} / nullif(${days_since_last_purchase},0))) ;;
+  }
+  dimension: risk_of_churn_hidden {
+    type: number
+    hidden: yes
+    sql: ${risk_of_churn} * 100 ;;
+  }
   dimension: online_transaction_count {
     type: number
   }
