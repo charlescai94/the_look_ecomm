@@ -5,7 +5,7 @@ view: omni_channel_events {
     SELECT
     ID
     ,SEQUENCE_NUMBER
-    ,EVENTS.SESSION_ID AS SESSION_ID
+    ,SESSION_ID
     ,IP_ADDRESS
     ,OS
     ,BROWSER
