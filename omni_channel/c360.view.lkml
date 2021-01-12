@@ -3,7 +3,7 @@
 
 view: c360 {
   derived_table: {
-    persist_for: "24 hours"
+    datagroup_trigger: new_day
     explore_source: customer_transaction_fact {
       column: cart_adds { field: customer_event_fact.cart_adds }
       column: event_count { field: customer_event_fact.event_count }

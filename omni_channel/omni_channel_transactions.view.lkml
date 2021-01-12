@@ -1,6 +1,6 @@
 view: omni_channel_transactions {
   derived_table: {
-    persist_for: "24 hours"
+   datagroup_trigger: new_day
     sql: SELECT *
       FROM
       (

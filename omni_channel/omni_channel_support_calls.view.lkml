@@ -1,6 +1,6 @@
 view: omni_channel_support_calls {
   derived_table: {
-    persist_for: "24 hours"
+    datagroup_trigger: new_day
     sql:
     SELECT * except(client_id)
     , cast(round(rand()*60000+25000,0) as INT64) as client_id

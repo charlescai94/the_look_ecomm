@@ -3,7 +3,7 @@
 
 view: customer_event_fact {
   derived_table: {
-    persist_for: "24 hours"
+    datagroup_trigger: new_day
     explore_source: omni_channel_events {
       column: customer_id {}
       column: acquisition_source {}

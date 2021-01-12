@@ -2,7 +2,13 @@ connection: "looker-private-demo"
 
 include: "/omni_channel/*.view.lkml"                # include all views in the views/ folder in this project
 
+datagroup: new_day {
+  sql_trigger: SELECT CURRENT_DATE() ;;
+  max_cache_age: "48 hours"
+}
+
 explore: omni_channel_transactions {
+  persist_with: new_day
   join: omni_channel_transactions__transaction_details {
     type: left_outer
     relationship: one_to_many
@@ -21,6 +27,7 @@ explore: omni_channel_transactions {
 }
 
 explore: omni_channel_events {
+  persist_with: new_day
   join: c360 {
     type: inner
     relationship: many_to_one
@@ -39,10 +46,13 @@ explore: omni_channel_events {
   }
 }
 
-explore: omni_channel_support_calls {}
+explore: omni_channel_support_calls {
+  persist_with: new_day
+}
 
 
 explore: customer_transaction_fact {
+  persist_with: new_day
   join: customer_event_fact {
     type: left_outer
     relationship: one_to_one

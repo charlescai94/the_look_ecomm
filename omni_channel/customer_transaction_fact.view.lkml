@@ -3,7 +3,7 @@
 
 view: customer_transaction_fact {
   derived_table: {
-    persist_for: "24 hours"
+    datagroup_trigger: new_day
     explore_source: omni_channel_transactions {
       column: customer_id {}
       column: curbside_transaction_count {}
