@@ -66,7 +66,7 @@ view: customers {
 
     link: {
       label: "User Lookup Dashboard"
-      url: "https://demo.looker.com/dashboards-next/6705?ID={{ customers.id._value }}"
+      url: "https://demo.looker.com/dashboards-next/6722?ID={{ customers.id._value }}"
       icon_url: "http://www.looker.com/favicon.ico"
     }
     action: {
