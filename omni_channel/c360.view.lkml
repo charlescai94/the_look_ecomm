@@ -127,9 +127,8 @@ view: c360 {
     value_format_name: percent_1
     sql: IF(1 - (${average_days_between_transaction} / nullif(${days_since_last_purchase},0))<0,0,1 - (${average_days_between_transaction} / nullif(${days_since_last_purchase},0))) ;;
   }
-  dimension: risk_of_churn_hidden {
+  dimension: risk_of_churn_100 {
     type: number
-    hidden: yes
     sql: ${risk_of_churn} * 100 ;;
   }
   dimension: online_transaction_count {
