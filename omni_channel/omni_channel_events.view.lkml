@@ -10,7 +10,7 @@ view: omni_channel_events {
     ,OS
     ,BROWSER
     ,CASE WHEN RAND() < 0.34 THEN 'Organic'
-            WHEN RAND() < 0.25 THEN 'Google Adwords'
+            WHEN RAND() < 0.25 THEN 'Google Ads'
             WHEN RAND() < 0.2 THEN 'Bing Ads'
             WHEN RAND() < 0.15 THEN 'Yahoo Ads'
             WHEN RAND() < 0.1 THEN 'Other Search Engines'
