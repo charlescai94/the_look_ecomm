@@ -519,6 +519,11 @@ view: omni_channel_transactions__transaction_details {
     value_format_name: percent_2
   }
 
+  measure: recommended_products {
+    type: list
+    list_field: product_name
+  }
+
   measure: item_count {
     type: count
   }

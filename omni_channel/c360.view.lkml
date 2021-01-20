@@ -210,7 +210,7 @@ view: c360 {
   }
 
   measure: customer_count {
-    drill_fields: [customer_id,customers.name,customers.email,customers.address,predicted_clv]
+    drill_fields: [customer_id,customers.name,customers.email,customers.address,predicted_clv,risk_of_churn,omni_channel_transactions__transaction_details.recommended_products]
     link: {
       label: "Top 100 Predicted CLV Customers"
       url: "{{ link }}&sorts=c360.predicted_clv+desc&limit=100"
