@@ -340,6 +340,7 @@ view: omni_channel_transactions {
   }
 
   dimension: customer_id {
+    value_format_name: id
     type: number
     sql: ${TABLE}.customer_id ;;
   }
@@ -496,19 +497,19 @@ view: omni_channel_transactions__transaction_details {
   }
 
   dimension: sale_price {
-    value_format_name: usd
+    value_format:"[>=1000000]$0.0,,\"M\";[>=1000]$0.0,\"K\";$0.0"
     type: number
     sql: ${TABLE}.sale_price ;;
   }
 
   measure: total_profit {
-    value_format_name: usd
+    value_format:"[>=1000000]$0.0,,\"M\";[>=1000]$0.0,\"K\";$0.0"
     type: sum
     sql: ${gross_margin} ;;
   }
 
   measure: total_sales {
-    value_format_name: usd
+    value_format:"[>=1000000]$0.0,,\"M\";[>=1000]$0.0,\"K\";$0.0"
     type: sum
     sql: ${sale_price} ;;
   }

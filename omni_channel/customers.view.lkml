@@ -3,6 +3,7 @@ view: customers {
   drill_fields: [id]
 
   dimension: id {
+    value_format_name: id
     primary_key: yes
     type: number
     sql: ${TABLE}.ID ;;

@@ -76,6 +76,7 @@ view: c360 {
     type: number
   }
   dimension: customer_id {
+    value_format_name: id
     primary_key: yes
     type: number
   }
@@ -210,6 +211,7 @@ view: c360 {
   }
 
   measure: customer_count {
+    value_format:"[>=1000000]0.0,,\"M\";[>=1000]0.0,\"K\";0"
     drill_fields: [customer_id,customers.name,customers.email,customers.address,predicted_clv,risk_of_churn,omni_channel_transactions__transaction_details.recommended_products]
     link: {
       label: "Top 100 Predicted CLV Customers"
@@ -243,6 +245,7 @@ view: c360 {
   }
 
   measure: average_sales_amount {
+    value_format:"[>=1000000]$0.0,,\"M\";[>=1000]$0.0,\"K\";$0.0"
     type: average
     sql: ${total_sales} ;;
   }
@@ -265,18 +268,19 @@ view: c360 {
   }
 
   measure: ltv{
+    value_format:"[>=1000000]$0.0,,\"M\";[>=1000]$0.0,\"K\";$0.0"
     type: number
     sql: (${total_sales} / NULLIF(${days_a_customer},0) * 365) / IF(${customer_type} = 'Both Online and Instore',0.05,0.1)  ;;
   }
 
   dimension: predicted_clv {
-    value_format_name: usd
+    value_format:"[>=1000000]$0.0,,\"M\";[>=1000]$0.0,\"K\";$0.0"
     type: number
     sql: (${total_sales} / NULLIF(${days_a_customer},0) * 365) / IF(${customer_type} = 'Both Online and Instore',0.05,0.1) ;;
   }
 
   measure: average_clv {
-    value_format_name: usd
+    value_format:"[>=1000000]$0.0,,\"M\";[>=1000]$0.0,\"K\";$0.0"
     type: average
     sql: ${predicted_clv} ;;
   }

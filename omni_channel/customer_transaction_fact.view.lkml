@@ -23,6 +23,7 @@ view: customer_transaction_fact {
     }
   }
   dimension: customer_id {
+    value_format_name: id
     type: number
   }
   dimension: curbside_transaction_count {
