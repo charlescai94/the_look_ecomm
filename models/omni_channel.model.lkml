@@ -1,6 +1,8 @@
 connection: "looker-private-demo"
 
-include: "/omni_channel/*.view.lkml"                # include all views in the views/ folder in this project
+include: "/omni_channel/*.view.lkml"
+include: "/omni_channel/*.dashboard.lookml"
+
 
 datagroup: new_day {
   sql_trigger: SELECT CURRENT_DATE() ;;
