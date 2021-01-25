@@ -6,12 +6,11 @@ view: store_weather {
     cluster_keys: ["store_id"]
     # requires ID, latitude, longitude columns in stores table
       # TO DO: update DATE_ADD(,+1 YEAR) with 2020 table once available in BQ public dataset
-    sql: WITH weather_raw AS (SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2020`
+    sql: WITH weather_raw AS (SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_202*`
         UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2019`
         UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2018`
         UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2017`
-        UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2016`
-        UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2015`),
+        UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2016`),
         weather_pivoted AS
         (SELECT date,id
         ,AVG(CASE WHEN element="TMAX" THEN value ELSE NULL END) AS TMAX
