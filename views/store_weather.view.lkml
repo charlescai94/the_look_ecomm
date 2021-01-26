@@ -1,18 +1,23 @@
 view: weather_raw {
   derived_table: {
     datagroup_trigger: daily
-    sql: SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2020`
+    partition_keys: ["date"]
+    # requires ID, latitude, longitude columns in stores table
+      # TO DO: update DATE_ADD(,+1 YEAR) with 2020 table once available in BQ public dataset
+    sql: SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_202*`
         UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2019`
         UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2018`
         UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2017`
-        UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2016`
-        UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2015` ;;
+        UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2016` ;;
   }
 }
 
 view: weather_pivoted {
   derived_table: {
     datagroup_trigger: daily
+    partition_keys: ["date"]
+    # requires ID, latitude, longitude columns in stores table
+      # TO DO: update DATE_ADD(,+1 YEAR) with 2020 table once available in BQ public dataset
     sql: SELECT date,id
         ,AVG(CASE WHEN element="TMAX" THEN value ELSE NULL END) AS TMAX
         ,AVG(CASE WHEN element="WESD" THEN value ELSE NULL END) AS WESD
@@ -89,8 +94,8 @@ view: weather_pivoted {
         ,AVG(CASE WHEN element="WT18" THEN value ELSE NULL END) AS WT18
         FROM ${weather_raw.SQL_TABLE_NAME}
         GROUP BY date,id ;;
+    }
   }
-}
 
 view: distances {
   derived_table: {
