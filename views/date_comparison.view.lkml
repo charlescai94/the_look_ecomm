@@ -32,6 +32,7 @@ view: date_comparison {
   }
 
   dimension: this_year_vs_last_year {
+    hidden: yes
     view_label: "Date Comparison"
     type: string
     sql: CASE
@@ -41,6 +42,7 @@ view: date_comparison {
   }
 
   dimension: this_week_vs_last_week {
+    hidden: yes
     view_label: "Date Comparison"
     type: string
     sql: CASE
