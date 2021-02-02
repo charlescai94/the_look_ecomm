@@ -45,10 +45,10 @@ view: customer_clustering_prediction_base {
   }
 }
 
-view: customer_clustering_prediction {
+view: customer_clustering_prediction_aggregates {
   derived_table: {
     datagroup_trigger: monthly
-    sql: WITH customer_clustering_prediction_aggregates AS (SELECT
+    sql: SELECT
       CENTROID_ID,
       AVG(age ) AS average_age,
       AVG(average_basket_size ) AS average_basket_size,
@@ -57,16 +57,27 @@ view: customer_clustering_prediction {
       AVG(total_sales ) AS average_total_sales,
       COUNT(DISTINCT customer_id) AS customer_count
       FROM ${customer_clustering_prediction_base.SQL_TABLE_NAME}
-      GROUP BY 1
-    ), customer_clustering_prediction_centroid_ranks AS (SELECT
+      GROUP BY 1 ;;
+  }
+}
+
+view: customer_clustering_prediction_centroid_ranks {
+  derived_table: {
+    datagroup_trigger: monthly
+    sql: SELECT
       centroid_id,
       RANK() OVER (ORDER BY average_age asc) as age_rank,
       RANK() OVER (ORDER BY average_age desc) as inverse_age_rank,
       RANK() OVER (ORDER BY average_basket_size desc) as average_basket_size_rank,
       RANK() OVER (ORDER BY average_total_sales desc) as average_total_sales_rank
-      FROM customer_clustering_prediction_aggregates
-    )
-    SELECT customer_clustering_prediction_base.*
+      FROM ${customer_clustering_prediction_aggregates.SQL_TABLE_NAME} ;;
+  }
+}
+
+view: customer_clustering_prediction {
+  derived_table: {
+    datagroup_trigger: monthly
+    sql: SELECT customer_clustering_prediction_base.*
       ,CASE
         WHEN customer_clustering_prediction_centroid_ranks.age_rank = 1 THEN 'Emerging Millennials 🥑'
         WHEN customer_clustering_prediction_centroid_ranks.inverse_age_rank = 1 THEN 'Affluent Retirees 👴'
@@ -76,7 +87,7 @@ view: customer_clustering_prediction {
         ELSE 'One-off locals 🏪'
       END AS customer_segment
     FROM ${customer_clustering_prediction_base.SQL_TABLE_NAME} customer_clustering_prediction_base
-    JOIN customer_clustering_prediction_centroid_ranks
+    JOIN ${customer_clustering_prediction_centroid_ranks.SQL_TABLE_NAME} customer_clustering_prediction_centroid_ranks
       ON customer_clustering_prediction_base.centroid_id = customer_clustering_prediction_centroid_ranks.centroid_id;;
   }
 

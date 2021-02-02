@@ -1,18 +1,24 @@
-view: store_weather {
-  label: "Store Weather ⛅"
+view: weather_raw {
   derived_table: {
     datagroup_trigger: daily
     partition_keys: ["date"]
-    cluster_keys: ["store_id"]
     # requires ID, latitude, longitude columns in stores table
       # TO DO: update DATE_ADD(,+1 YEAR) with 2020 table once available in BQ public dataset
-    sql: WITH weather_raw AS (SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_202*`
+    sql: SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_202*`
         UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2019`
         UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2018`
         UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2017`
-        UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2016`),
-        weather_pivoted AS
-        (SELECT date,id
+        UNION ALL SELECT id,date,element,value,mflag,qflag,sflag,time FROM `bigquery-public-data.ghcn_d.ghcnd_2016` ;;
+  }
+}
+
+view: weather_pivoted {
+  derived_table: {
+    datagroup_trigger: daily
+    partition_keys: ["date"]
+    # requires ID, latitude, longitude columns in stores table
+      # TO DO: update DATE_ADD(,+1 YEAR) with 2020 table once available in BQ public dataset
+    sql: SELECT date,id
         ,AVG(CASE WHEN element="TMAX" THEN value ELSE NULL END) AS TMAX
         ,AVG(CASE WHEN element="WESD" THEN value ELSE NULL END) AS WESD
         ,AVG(CASE WHEN element="AWND" THEN value ELSE NULL END) AS AWND
@@ -86,14 +92,31 @@ view: store_weather {
         ,AVG(CASE WHEN element="DWPR" THEN value ELSE NULL END) AS DWPR
         ,AVG(CASE WHEN element="SX35" THEN value ELSE NULL END) AS SX35
         ,AVG(CASE WHEN element="WT18" THEN value ELSE NULL END) AS WT18
-        FROM weather_raw
-        GROUP BY date,id),
-        distances AS (SELECT stores.id as store_id
+        FROM ${weather_raw.SQL_TABLE_NAME}
+        GROUP BY date,id ;;
+    }
+  }
+
+view: distances {
+  derived_table: {
+    datagroup_trigger: daily
+    sql: SELECT stores.id as store_id
         ,stations.id AS station_id
         ,ST_DISTANCE(ST_GEOGPOINT(stores.longitude,stores.latitude),ST_GEOGPOINT(stations.longitude,stations.latitude)) as dist
         FROM ${stores.SQL_TABLE_NAME} stores
-        CROSS JOIN `bigquery-public-data.ghcn_d.ghcnd_stations` stations)
-        SELECT distances.store_id
+        CROSS JOIN `bigquery-public-data.ghcn_d.ghcnd_stations` stations ;;
+  }
+}
+
+view: store_weather {
+  label: "Store Weather ⛅"
+  derived_table: {
+    datagroup_trigger: daily
+    partition_keys: ["date"]
+    cluster_keys: ["store_id"]
+    # requires ID, latitude, longitude columns in stores table
+      # TO DO: update DATE_ADD(,+1 YEAR) with 2020 table once available in BQ public dataset
+    sql: SELECT distances.store_id
           ,weather_pivoted.date
           ,AVG(distances.dist/1000) AS average_distance_to_weather_stations_km
           ,AVG(TMAX) AS TMAX
@@ -169,8 +192,8 @@ view: store_weather {
           ,AVG(DWPR) AS DWPR
           ,AVG(SX35) AS SX35
           ,AVG(WT18) AS WT18
-        FROM distances
-        JOIN weather_pivoted
+        FROM ${distances.SQL_TABLE_NAME} distances
+        JOIN ${weather_pivoted.SQL_TABLE_NAME} weather_pivoted
           ON distances.station_id = weather_pivoted.id
         WHERE distances.dist < 30000
         GROUP BY 1,2;;
