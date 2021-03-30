@@ -8,5 +8,6 @@ application: ef_kthub_lab {
     navigation: yes
     new_window: yes
     core_api_methods: ["all_connections","search_folders", "run_inline_query", "me"]
+    use_embeds: yes
   }
 }
