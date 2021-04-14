@@ -8,7 +8,7 @@ application: ef_kthub_lab {
     local_storage: yes
     navigation: yes
     new_window: yes
-    core_api_methods: ["all_connections","search_folders", "run_inline_query", "me"]
+    core_api_methods: ["run_inline_query", "all_connections","search_folders", "me", "all_looks", "run_look","create_sql_query","run_sql_query","query"]
     use_embeds: yes
   }
 }
